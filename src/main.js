@@ -1,11 +1,38 @@
 
 const studentsUrl = 'http://localhost:3000/students'
+var studentForm;
 
 function init(){
 	loadStudents()
 		.then(renderStudents);
+
+	studentForm = document.getElementById('student-form');
+	studentForm.addEventListener('submit',(event) => {
+		event.preventDefault();
+		createStudent()
+			.then(loadStudents)
+			.then(renderStudents);
+	});	
 };
 window.onload = init;
+
+function createStudent(){
+	let studentFormValues = {
+		'name': studentForm.name.value,
+		'mark': studentForm.mark.value
+	} 
+	return fetch(studentsUrl,{
+		method: 'POST',
+		headers: {
+      		'Accept': 'application/json',
+      		'Content-Type': 'application/json'
+    		},
+    	 body: JSON.stringify(studentFormValues)
+
+	})
+		.then(r => r.json())
+};
+
 function loadStudents() {
 	return fetch(studentsUrl)
 				.then(r => r.json());
