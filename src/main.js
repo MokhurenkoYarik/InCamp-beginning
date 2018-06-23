@@ -45,6 +45,7 @@ function updateStudentElement(studentElement, student){
 
 function renderStudents(students){
 	console.log(students);
+	let summMarks = 0;
 	let template = document.getElementById('student-template');
 	let studentElement = template.content.querySelector('.student');
 	let studentList = document.getElementById('students');
@@ -52,8 +53,12 @@ function renderStudents(students){
 	for (let student of students){
 		let studentClone = studentElement.cloneNode(true);
 		updateStudentElement(studentClone, student);
+		summMarks += parseInt(student.mark);
 		studentList.appendChild(studentClone);
 	}
+	let avarageElement = document.getElementById("avarage-mark");
+	avarageElement.innerHTML = String(summMarks/students.length);
+	studentForm.mark.value = '';
 };
 
 var studentsArray = [{name:"Anton", mark:"3"}, {name:"Maksim",mark:"4"}, {name:"Yarik",mark:"5"}];
